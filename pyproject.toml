@@ -1,0 +1,17 @@
+[project]
+name = "trex"
+version = "0.0.1"
+description = "Interactive terminal-based directory structure builder"
+authors = [
+    { name = "AK" }
+]
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+trex = "trex.main:main"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
