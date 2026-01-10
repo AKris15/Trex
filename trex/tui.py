@@ -102,6 +102,7 @@ def tui_main(stdscr):
     stdscr.keypad(True)
 
     root = state.root_dir
+    assert root is not None
     selected = 0
 
     while True:
