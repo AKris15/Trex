@@ -15,6 +15,7 @@ MENU_ITEMS = [
     "Load Preset",
     "Save Structure",
     "Load Structure",
+    "Go Back",
     "Quit",
 ]
 
@@ -130,6 +131,12 @@ def tui_main(stdscr):
                         notify(stdscr, "Structure loaded successfully")
                     except Exception as e:
                         notify(stdscr, f"Error: {e}")
+
+            elif action == "Go Back":
+                if len(state.path_stack) > 1:
+                    state.path_stack.pop()
+                else:
+                    notify(stdscr, "Already at project root")
 
             elif action == "Quit":
                 break
