@@ -1,1 +1,64 @@
-trex/__pycache__
+# Python bytecode / cache
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# Packaging / build artifacts
+
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+
+# Editable installs (pip -e .)
+*.egg-link
+
+
+# Virtual environments
+
+.venv/
+venv/
+env/
+ENV/
+
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
+
+
+# Curses / TUI runtime artifacts
+*.log
+*.tmp
+
+
+# Project runtime data
+# (generated while using trex)
+
+demo-root/
+demo-clone/
+structure.json
+
+
+# User-generated output
+
+*.tree.json
+*.preset.json
+env
