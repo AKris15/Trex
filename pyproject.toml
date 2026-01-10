@@ -1,7 +1,9 @@
 [project]
 name = "trex"
-version = "0.0.1"
+version = "0.1.5"
 description = "Interactive terminal-based directory structure builder"
+readme = "README.md"
+license = { text = "MIT" }
 authors = [
     { name = "AK" }
 ]
@@ -11,7 +13,9 @@ dependencies = []
 [project.scripts]
 trex = "trex.main:main"
 
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+[tool.setuptools.package-data]
+trex = ["presets/*.json"]
 
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
