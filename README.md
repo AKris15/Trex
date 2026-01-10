@@ -1,6 +1,6 @@
-# Trex 
+# KTrex 
 
-**Trex** is an interactive, terminal-based directory and file structure builder.  
+**KTrex** is an interactive, terminal-based directory and file structure builder.  
 It lets you visually create, navigate, undo, save, load, and reuse project layouts
 directly from a curses-based TUI — safely and deterministically.
 
@@ -27,14 +27,14 @@ directly from a curses-based TUI — safely and deterministically.
 ### Using pip (recommended)
 
 ```bash
-pip install trex
+pip install KTrex
 ````
 
 ### Editable install (for development)
 
 ```bash
-git clone https://github.com/yourusername/trex.git
-cd trex
+git clone https://github.com/yourusername/KTrex.git
+cd KTrex
 pip install -e .
 ```
 
@@ -42,10 +42,10 @@ pip install -e .
 
 ## ▶️ Usage
 
-Run trex inside any directory:
+Run KTrex inside any directory:
 
 ```bash
-trex
+KTrex
 ```
 
 You’ll be dropped into an interactive TUI showing your project tree and available actions.
@@ -62,7 +62,7 @@ You’ll be dropped into an interactive TUI showing your project tree and availa
 | Ctrl + U / Ctrl + D   | Scroll tree view               |
 | Mouse Wheel           | Scroll tree view               |
 | Any key               | Dismiss messages / dialogs     |
-| Quit                  | Exit trex safely               |
+| Quit                  | Exit KTrex safely               |
 
 ---
 
@@ -136,7 +136,7 @@ Preset format is documented below.
 
 ## Preset / Structure Format
 
-trex uses a simple, declarative JSON format:
+KTrex uses a simple, declarative JSON format:
 
 ```json
 {
@@ -164,7 +164,7 @@ This format is shared by:
 
 ## Safety Guarantees
 
-trex is designed to be **safe by default**:
+KTrex is designed to be **safe by default**:
 
 * ❌ Never overwrites files
 * ❌ Never deletes non-empty directories

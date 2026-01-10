@@ -1,8 +1,8 @@
-# trex Documentation
+# KTrex Documentation
 
-Welcome to the official documentation for **trex**.
+Welcome to the official documentation for **KTrex**.
 
-trex is an interactive terminal tool for building and managing
+KTrex is an interactive terminal tool for building and managing
 directory structures safely and visually.
 it supports scrolling large directory trees using keyboard
 (PageUp/PageDown, Ctrl+U/Ctrl+D) and mouse wheel input.

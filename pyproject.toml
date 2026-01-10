@@ -1,5 +1,5 @@
 [project]
-name = "trex"
+name = "KTrex"
 version = "0.1.5"
 description = "Interactive terminal-based directory structure builder"
 readme = "README.md"
@@ -11,10 +11,10 @@ requires-python = ">=3.10"
 dependencies = []
 
 [project.scripts]
-trex = "trex.main:main"
+KTrex = "KTrex.main:main"
 
 [tool.setuptools.package-data]
-trex = ["presets/*.json"]
+KTrex = ["presets/*.json"]
 
 [build-system]
 requires = ["setuptools>=61"]

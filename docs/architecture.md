@@ -1,6 +1,6 @@
 # Architecture Overview
 
-trex follows a layered architecture:
+KTrex follows a layered architecture:
 
 ## Layers
 

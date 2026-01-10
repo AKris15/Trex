@@ -2,8 +2,8 @@ import curses
 import sys
 from pathlib import Path
 
-from trex import state
-from trex.tui import tui_main
+from KTrex import state
+from KTrex.tui import tui_main
 
 
 def resolve_root(argv: list[str]) -> Path:

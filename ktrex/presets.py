@@ -5,7 +5,7 @@ from .tree import apply_tree
 
 
 def _builtin_preset_path(name: str) -> Path:
-    # Resolve a preset bundled inside the trex package.
+    # Resolve a preset bundled inside the KTrex package.
 
     return Path(__file__).parent / "presets" / f"{name}.json"
 

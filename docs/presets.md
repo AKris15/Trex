@@ -4,7 +4,7 @@ Presets define reusable directory structures in JSON format.
 
 ## Built-in Presets
 
-trex ships with builtin presets located inside the package.
+KTrex ships with builtin presets located inside the package.
 
 Example:
 - ml_project
@@ -43,4 +43,3 @@ Rules:
 * Only `dir` and `file` types are allowed
 * Children are optional
 * Presets are additive
-

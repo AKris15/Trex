@@ -1,8 +1,8 @@
 # Safety Model
 
-trex is designed to prevent accidental data loss.
+KTrex is designed to prevent accidental data loss.
 
-## What trex will never do
+## What KTrex will never do
 
 - Delete non-empty directories
 - Overwrite existing files

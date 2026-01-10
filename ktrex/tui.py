@@ -21,7 +21,7 @@ MENU_ITEMS = [
 ]
 
 HELP_TEXT = [
-    "Trex — Interactive Directory Builder",
+    "KTrex — Interactive Directory Builder",
     "",
     "Navigation:",
     "  ↑ / ↓     Move through menu",
@@ -37,7 +37,7 @@ HELP_TEXT = [
     "  Go Back           - Move to parent directory",
     "",
     "Notes:",
-    "  • trex never deletes non-empty directories",
+    "  • KTrex never deletes non-empty directories",
     "  • Existing files are never overwritten",
     "  • Presets are additive",
     "",
