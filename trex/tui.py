@@ -56,13 +56,20 @@ def draw_menu(stdscr, selected: int):
         attr = curses.A_REVERSE if i == selected else curses.A_NORMAL
         stdscr.addstr(start_y + i, w - 20, item, attr)
 
-
 def draw_tree(stdscr, root: Path, current: Path):
-    stdscr.addstr(0, 0, root.name, curses.A_BOLD)
+    h, w = stdscr.getmaxyx()
+
+    stdscr.addstr(0, 0, root.name[: w - 1], curses.A_BOLD)
 
     lines = render_tree(root, current=current)
+
     for idx, line in enumerate(lines, start=1):
-        stdscr.addstr(idx, 0, line)
+        if idx >= h - 1:
+            break  
+
+        safe_line = line[: w - 1]
+        stdscr.addstr(idx, 0, safe_line)
+
 
 
 def draw_help(stdscr):
