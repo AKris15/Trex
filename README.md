@@ -18,6 +18,7 @@ directly from a curses-based TUI — safely and deterministically.
 - Load and resume saved structures
 - Non-destructive by design (no overwrites, no forced deletes)
 - Works offline, zero runtime dependencies
+- Scrollable tree view (keyboard + mouse)
 
 ---
 
@@ -53,12 +54,15 @@ You’ll be dropped into an interactive TUI showing your project tree and availa
 
 ## Controls
 
-| Key     | Action           |
-| ------- | ---------------- |
-| ↑ / ↓   | Navigate menu    |
-| Enter   | Select action    |
-| Any key | Dismiss messages |
-| Quit    | Exit trex safely |
+| Key                   | Action                         |
+|-----------------------|--------------------------------|
+| ↑ / ↓                 | Navigate menu                  |
+| Enter                 | Select highlighted action      |
+| PageUp / PageDown     | Scroll tree view               |
+| Ctrl + U / Ctrl + D   | Scroll tree view               |
+| Mouse Wheel           | Scroll tree view               |
+| Any key               | Dismiss messages / dialogs     |
+| Quit                  | Exit trex safely               |
 
 ---
 

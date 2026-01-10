@@ -20,9 +20,8 @@ MENU_ITEMS = [
     "Quit",
 ]
 
-
 HELP_TEXT = [
-    "trex — Interactive Directory Builder",
+    "Trex — Interactive Directory Builder",
     "",
     "Navigation:",
     "  ↑ / ↓     Move through menu",
@@ -42,14 +41,18 @@ HELP_TEXT = [
     "  • Existing files are never overwritten",
     "  • Presets are additive",
     "",
+    "Scrolling:",
+    "  PageUp / PageDown  Scroll tree view",
+    "  Ctrl + U / Ctrl + D  Scroll up / down",
+    "  Mouse Wheel        Scroll tree",
+    "",
     "Press any key to return",
 ]
 
 
 def draw_menu(stdscr, selected: int):
     h, w = stdscr.getmaxyx()
-
-    menu_width = min(24, w - 2)
+    menu_width = min(24, max(10, w - 2))
     start_x = max(0, w - menu_width)
     start_y = 2
 
@@ -62,22 +65,26 @@ def draw_menu(stdscr, selected: int):
         y = start_y + i
         if y >= h - 1:
             break
-
         attr = curses.A_REVERSE if i == selected else curses.A_NORMAL
         stdscr.addnstr(y, start_x, item, menu_width, attr)
 
 
-def draw_tree(stdscr, root: Path, current: Path):
+def draw_tree(stdscr, root: Path, current: Path, scroll_offset: int):
     h, w = stdscr.getmaxyx()
     stdscr.addnstr(0, 0, root.name, w - 2, curses.A_BOLD)
 
     lines = render_tree(root, current=current)
 
-    for idx, line in enumerate(lines, start=1):
-        if idx >= h - 2:
-            break
+    visible_height = h - 2
+    start = scroll_offset
+    end = min(start + visible_height, len(lines))
 
+    for idx, line in enumerate(lines[start:end], start=1):
         stdscr.addnstr(idx, 0, line, w - 2)
+
+    if len(lines) > visible_height:
+        indicator = f"[{start + 1}-{end}/{len(lines)}]"
+        stdscr.addnstr(h - 1, 0, indicator, w - 2)
 
 
 def draw_help(stdscr):
@@ -85,7 +92,10 @@ def draw_help(stdscr):
     h, w = stdscr.getmaxyx()
 
     for i, line in enumerate(HELP_TEXT):
-        stdscr.addstr(i + 1, 2, line)
+        y = i + 1
+        if y >= h - 1:
+            break
+        stdscr.addnstr(y, 2, line, w - 4)
 
     stdscr.refresh()
     stdscr.getch()
@@ -105,7 +115,6 @@ def prompt(stdscr, message: str) -> str:
     curses.echo()
     value = stdscr.getstr(y, min(len(message), w - 3)).decode().strip()
     curses.noecho()
-
     return value
 
 
@@ -124,8 +133,10 @@ def notify(stdscr, message: str):
 
 def tui_main(stdscr):
     curses.curs_set(0)
+    curses.mousemask(curses.ALL_MOUSE_EVENTS)
     stdscr.keypad(True)
 
+    scroll_offset = 0
     root = state.root_dir
     assert root is not None
     selected = 0
@@ -133,20 +144,51 @@ def tui_main(stdscr):
     while True:
         current = state.path_stack[-1]
 
+        lines = render_tree(root, current=current)
+        h, _ = stdscr.getmaxyx()
+        max_offset = max(0, len(lines) - (h - 2))
+        scroll_offset = min(scroll_offset, max_offset)
+
         stdscr.clear()
-        draw_tree(stdscr, root, current)
+        draw_tree(stdscr, root, current, scroll_offset)
         draw_menu(stdscr, selected)
 
         key = stdscr.getch()
 
-        if key == curses.KEY_UP and selected > 0:
+        if key == curses.KEY_RESIZE:
+            scroll_offset = 0
+
+        elif key == curses.KEY_UP and selected > 0:
             selected -= 1
 
         elif key == curses.KEY_DOWN and selected < len(MENU_ITEMS) - 1:
             selected += 1
 
-        elif key in (10, 13):  # Enter
+        elif key == curses.KEY_NPAGE:
+            scroll_offset += 5
+
+        elif key == curses.KEY_PPAGE:
+            scroll_offset = max(0, scroll_offset - 5)
+
+        elif key == 4:
+            scroll_offset += 5
+
+        elif key == 21:
+            scroll_offset = max(0, scroll_offset - 5)
+
+        elif key == curses.KEY_MOUSE:
+            try:
+                _, _, _, _, mouse_state = curses.getmouse()
+                if mouse_state & (curses.BUTTON4_PRESSED | curses.BUTTON4_RELEASED):
+                    scroll_offset = max(0, scroll_offset - 3)
+                elif mouse_state & (curses.BUTTON5_PRESSED | curses.BUTTON5_RELEASED):
+                    scroll_offset += 3
+            except curses.error:
+                pass
+
+        elif key in (10, 13):
             action = MENU_ITEMS[selected]
+            scroll_offset = 0
 
             if action == "Create Directory":
                 name = prompt(stdscr, "Directory name: ")
@@ -191,7 +233,6 @@ def tui_main(stdscr):
                         with open(Path(path_str), "r") as f:
                             tree = json.load(f)
                         apply_tree(root, tree)
-                        notify(stdscr, "Structure loaded successfully")
                     except Exception as e:
                         notify(stdscr, f"Error: {e}")
 
