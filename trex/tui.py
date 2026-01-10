@@ -1,10 +1,12 @@
 import curses
+import json
 from pathlib import Path
 
 from . import state
 from .fs import create_dir, create_file, undo_last
 from .presets import load_preset
 from .render import render_tree
+from .tree import build_tree
 
 MENU_ITEMS = [
     "Create Directory",
@@ -47,6 +49,14 @@ def prompt(stdscr, message: str) -> str:
     curses.noecho()
 
     return value
+
+
+def notify(stdscr, message: str):
+    h, w = stdscr.getmaxyx()
+    stdscr.addstr(h - 1, 0, " " * (w - 1))
+    stdscr.addstr(h - 1, 0, message)
+    stdscr.refresh()
+    stdscr.getch()
 
 
 def tui_main(stdscr):
@@ -97,7 +107,18 @@ def tui_main(stdscr):
                     try:
                         load_preset(value, current)
                     except Exception as e:
-                        prompt(stdscr, f"Error: {e} (press Enter)")
+                        notify(stdscr, f"Error: {e}")
+
+            elif action == "Save Structure":
+                path_str = prompt(stdscr, "Save to (path): ")
+                if path_str:
+                    try:
+                        tree = build_tree(root)
+                        with open(Path(path_str), "w") as f:
+                            json.dump(tree, f, indent=2)
+                        notify(stdscr, "Structure saved successfully")
+                    except Exception as e:
+                        notify(stdscr, f"Error: {e}")
 
             elif action == "Quit":
                 break
