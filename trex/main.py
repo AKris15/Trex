@@ -1,12 +1,13 @@
+import curses
 from pathlib import Path
 
 from trex import state
 from trex.presets import load_preset
-from trex.render import render_tree
+from trex.tui import tui_main
 
 
 def main():
-    root = Path("demo-render")
+    root = Path("demo-tui")
     root.mkdir(exist_ok=True)
 
     state.root_dir = root
@@ -14,11 +15,7 @@ def main():
 
     load_preset("ml_project", root)
 
-    print(root.name)
-    for line in render_tree(root, current=root / "src"):
-        print(line)
-
-    print("\nWorks!")
+    curses.wrapper(tui_main)
 
 
 if __name__ == "__main__":
