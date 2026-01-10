@@ -16,7 +16,33 @@ MENU_ITEMS = [
     "Save Structure",
     "Load Structure",
     "Go Back",
+    "Help",
     "Quit",
+]
+
+
+HELP_TEXT = [
+    "trex — Interactive Directory Builder",
+    "",
+    "Navigation:",
+    "  ↑ / ↓     Move through menu",
+    "  Enter     Select action",
+    "",
+    "Actions:",
+    "  Create Directory  - Create and enter a new folder",
+    "  Create File       - Create a file in current directory",
+    "  Undo              - Revert last create action (safe)",
+    "  Load Preset       - Apply a preset by name or file path",
+    "  Save Structure    - Save project structure to JSON",
+    "  Load Structure    - Load structure from JSON",
+    "  Go Back           - Move to parent directory",
+    "",
+    "Notes:",
+    "  • trex never deletes non-empty directories",
+    "  • Existing files are never overwritten",
+    "  • Presets are additive",
+    "",
+    "Press any key to return",
 ]
 
 
@@ -37,6 +63,17 @@ def draw_tree(stdscr, root: Path, current: Path):
     lines = render_tree(root, current=current)
     for idx, line in enumerate(lines, start=1):
         stdscr.addstr(idx, 0, line)
+
+
+def draw_help(stdscr):
+    stdscr.clear()
+    h, w = stdscr.getmaxyx()
+
+    for i, line in enumerate(HELP_TEXT):
+        stdscr.addstr(i + 1, 2, line)
+
+    stdscr.refresh()
+    stdscr.getch()
 
 
 def prompt(stdscr, message: str) -> str:
@@ -137,6 +174,9 @@ def tui_main(stdscr):
                     state.path_stack.pop()
                 else:
                     notify(stdscr, "Already at project root")
+
+            elif action == "Help":
+                draw_help(stdscr)
 
             elif action == "Quit":
                 break
