@@ -2,7 +2,7 @@ import curses
 from pathlib import Path
 
 from . import state
-from .fs import create_dir
+from .fs import create_dir, create_file
 from .render import render_tree
 
 MENU_ITEMS = [
@@ -36,9 +36,6 @@ def draw_tree(stdscr, root: Path, current: Path):
 
 
 def prompt(stdscr, message: str) -> str:
-    """
-    Prompt user for input at the bottom of the screen.
-    """
     h, w = stdscr.getmaxyx()
     stdscr.addstr(h - 2, 0, " " * (w - 1))
     stdscr.addstr(h - 2, 0, message)
@@ -80,4 +77,14 @@ def tui_main(stdscr):
                 if name:
                     new_dir = create_dir(current, name)
                     if new_dir:
-                        state.path_stack._
+                        state.path_stack.append(new_dir)
+
+            elif action == "Create File":
+                name = prompt(stdscr, "File name: ")
+                if name:
+                    create_file(current, name)
+
+            elif action == "Quit":
+                break
+
+        stdscr.refresh()
