@@ -3,6 +3,7 @@ from pathlib import Path
 
 from . import state
 from .fs import create_dir, create_file, undo_last
+from .presets import load_preset
 from .render import render_tree
 
 MENU_ITEMS = [
@@ -87,12 +88,16 @@ def tui_main(stdscr):
 
             elif action == "Undo":
                 undone = undo_last()
+                if undone and not current.exists():
+                    state.path_stack.pop()
 
-                # If we undid the directory we're currently in,
-                # move back to its parent safely.
-                if undone:
-                    if not current.exists():
-                        state.path_stack.pop()
+            elif action == "Load Preset":
+                value = prompt(stdscr, "Preset name or path: ")
+                if value:
+                    try:
+                        load_preset(value, current)
+                    except Exception as e:
+                        prompt(stdscr, f"Error: {e} (press Enter)")
 
             elif action == "Quit":
                 break
