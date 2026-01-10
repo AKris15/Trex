@@ -2,7 +2,7 @@ import curses
 from pathlib import Path
 
 from . import state
-from .fs import create_dir, create_file
+from .fs import create_dir, create_file, undo_last
 from .render import render_tree
 
 MENU_ITEMS = [
@@ -66,6 +66,7 @@ def tui_main(stdscr):
 
         if key == curses.KEY_UP and selected > 0:
             selected -= 1
+
         elif key == curses.KEY_DOWN and selected < len(MENU_ITEMS) - 1:
             selected += 1
 
@@ -83,6 +84,15 @@ def tui_main(stdscr):
                 name = prompt(stdscr, "File name: ")
                 if name:
                     create_file(current, name)
+
+            elif action == "Undo":
+                undone = undo_last()
+
+                # If we undid the directory we're currently in,
+                # move back to its parent safely.
+                if undone:
+                    if not current.exists():
+                        state.path_stack.pop()
 
             elif action == "Quit":
                 break
