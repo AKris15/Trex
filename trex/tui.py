@@ -6,7 +6,7 @@ from . import state
 from .fs import create_dir, create_file, undo_last
 from .presets import load_preset
 from .render import render_tree
-from .tree import build_tree
+from .tree import apply_tree, build_tree
 
 MENU_ITEMS = [
     "Create Directory",
@@ -117,6 +117,17 @@ def tui_main(stdscr):
                         with open(Path(path_str), "w") as f:
                             json.dump(tree, f, indent=2)
                         notify(stdscr, "Structure saved successfully")
+                    except Exception as e:
+                        notify(stdscr, f"Error: {e}")
+
+            elif action == "Load Structure":
+                path_str = prompt(stdscr, "Load from (path): ")
+                if path_str:
+                    try:
+                        with open(Path(path_str), "r") as f:
+                            tree = json.load(f)
+                        apply_tree(root, tree)
+                        notify(stdscr, "Structure loaded successfully")
                     except Exception as e:
                         notify(stdscr, f"Error: {e}")
 
