@@ -48,28 +48,36 @@ HELP_TEXT = [
 
 def draw_menu(stdscr, selected: int):
     h, w = stdscr.getmaxyx()
+
+    menu_width = min(24, w - 2)
+    start_x = max(0, w - menu_width)
     start_y = 2
 
-    stdscr.addstr(start_y - 1, w - 20, "Actions", curses.A_BOLD)
+    if start_y >= h - 1:
+        return
+
+    stdscr.addnstr(start_y - 1, start_x, "Actions", menu_width, curses.A_BOLD)
 
     for i, item in enumerate(MENU_ITEMS):
+        y = start_y + i
+        if y >= h - 1:
+            break
+
         attr = curses.A_REVERSE if i == selected else curses.A_NORMAL
-        stdscr.addstr(start_y + i, w - 20, item, attr)
+        stdscr.addnstr(y, start_x, item, menu_width, attr)
+
 
 def draw_tree(stdscr, root: Path, current: Path):
     h, w = stdscr.getmaxyx()
-
-    stdscr.addstr(0, 0, root.name[: w - 1], curses.A_BOLD)
+    stdscr.addnstr(0, 0, root.name, w - 2, curses.A_BOLD)
 
     lines = render_tree(root, current=current)
 
     for idx, line in enumerate(lines, start=1):
-        if idx >= h - 1:
-            break  
+        if idx >= h - 2:
+            break
 
-        safe_line = line[: w - 1]
-        stdscr.addstr(idx, 0, safe_line)
-
+        stdscr.addnstr(idx, 0, line, w - 2)
 
 
 def draw_help(stdscr):
@@ -85,12 +93,17 @@ def draw_help(stdscr):
 
 def prompt(stdscr, message: str) -> str:
     h, w = stdscr.getmaxyx()
-    stdscr.addstr(h - 2, 0, " " * (w - 1))
-    stdscr.addstr(h - 2, 0, message)
+    y = h - 2
+    if y < 0:
+        return ""
+
+    stdscr.move(y, 0)
+    stdscr.clrtoeol()
+    stdscr.addnstr(y, 0, message, w - 2)
     stdscr.refresh()
 
     curses.echo()
-    value = stdscr.getstr(h - 2, len(message)).decode().strip()
+    value = stdscr.getstr(y, min(len(message), w - 3)).decode().strip()
     curses.noecho()
 
     return value
@@ -98,8 +111,13 @@ def prompt(stdscr, message: str) -> str:
 
 def notify(stdscr, message: str):
     h, w = stdscr.getmaxyx()
-    stdscr.addstr(h - 1, 0, " " * (w - 1))
-    stdscr.addstr(h - 1, 0, message)
+    y = h - 1
+    if y < 0:
+        return
+
+    stdscr.move(y, 0)
+    stdscr.clrtoeol()
+    stdscr.addnstr(y, 0, message, w - 2)
     stdscr.refresh()
     stdscr.getch()
 
