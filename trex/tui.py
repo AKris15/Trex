@@ -2,6 +2,7 @@ import curses
 from pathlib import Path
 
 from . import state
+from .fs import create_dir
 from .render import render_tree
 
 MENU_ITEMS = [
@@ -34,18 +35,33 @@ def draw_tree(stdscr, root: Path, current: Path):
         stdscr.addstr(idx, 0, line)
 
 
+def prompt(stdscr, message: str) -> str:
+    """
+    Prompt user for input at the bottom of the screen.
+    """
+    h, w = stdscr.getmaxyx()
+    stdscr.addstr(h - 2, 0, " " * (w - 1))
+    stdscr.addstr(h - 2, 0, message)
+    stdscr.refresh()
+
+    curses.echo()
+    value = stdscr.getstr(h - 2, len(message)).decode().strip()
+    curses.noecho()
+
+    return value
+
+
 def tui_main(stdscr):
     curses.curs_set(0)
     stdscr.keypad(True)
 
     root = state.root_dir
-    current = state.path_stack[-1]
-
     selected = 0
 
     while True:
-        stdscr.clear()
+        current = state.path_stack[-1]
 
+        stdscr.clear()
         draw_tree(stdscr, root, current)
         draw_menu(stdscr, selected)
 
@@ -55,8 +71,13 @@ def tui_main(stdscr):
             selected -= 1
         elif key == curses.KEY_DOWN and selected < len(MENU_ITEMS) - 1:
             selected += 1
-        elif key in (10, 13):  # Enter
-            if MENU_ITEMS[selected] == "Quit":
-                break
 
-        stdscr.refresh()
+        elif key in (10, 13):  # Enter
+            action = MENU_ITEMS[selected]
+
+            if action == "Create Directory":
+                name = prompt(stdscr, "Directory name: ")
+                if name:
+                    new_dir = create_dir(current, name)
+                    if new_dir:
+                        state.path_stack._
