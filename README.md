@@ -170,14 +170,24 @@ trex is designed to be **safe by default**:
 
 ---
 
-## 📜 License
+Nice question — README polish matters a lot, especially if you want your repo to look **professional + sponsor-friendly**.
 
-MIT License
-
-```
+Below are **clean, modern ways** to upgrade both the **License** and **Sponsor** sections without overdoing it.
 
 ---
 
-## Sponsor
+## 📜 License
 
-https://ko-fi.com/akris
+This project is licensed under the **MIT License**.  
+You are free to use, modify, and distribute this software with proper attribution.
+
+See the [LICENSE](./LICENSE) file for details.
+
+
+## 💖 Sponsor
+
+If you find this project useful and want to support its development:
+
+[![Ko-Fi](https://img.shields.io/badge/☕%20Buy%20Me%20a%20Coffee-ko--fi-red)](https://ko-fi.com/akris)
+
+Your support helps keep this project alive and actively maintained.
