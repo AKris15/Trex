@@ -1,0 +1,20 @@
+{
+  "name": "config_project",
+  "type": "dir",
+  "children": [
+    {
+      "name": "configs",
+      "type": "dir",
+      "children": [
+        { "name": "dev.yaml", "type": "file" },
+        { "name": "prod.yaml", "type": "file" }
+      ]
+    },
+    {
+      "name": "scripts",
+      "type": "dir",
+      "children": []
+    }
+  ]
+}
+

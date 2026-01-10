@@ -33,7 +33,7 @@ pip install KTrex
 ### Editable install (for development)
 
 ```bash
-git clone https://github.com/yourusername/KTrex.git
+git clone https://github.com/akris15/KTrex.git
 cd KTrex
 pip install -e .
 ```

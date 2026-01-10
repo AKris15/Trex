@@ -1,0 +1,20 @@
+{
+  "name": "cli_tool",
+  "type": "dir",
+  "children": [
+    { "name": "README.md", "type": "file" },
+    {
+      "name": "src",
+      "type": "dir",
+      "children": [
+        { "name": "main.py", "type": "file" }
+      ]
+    },
+    {
+      "name": "tests",
+      "type": "dir",
+      "children": []
+    }
+  ]
+}
+

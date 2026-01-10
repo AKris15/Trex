@@ -1,0 +1,19 @@
+{
+  "name": "generic_project",
+  "type": "dir",
+  "children": [
+    { "name": "README.md", "type": "file" },
+    { "name": ".gitignore", "type": "file" },
+    {
+      "name": "src",
+      "type": "dir",
+      "children": []
+    },
+    {
+      "name": "docs",
+      "type": "dir",
+      "children": []
+    }
+  ]
+}
+

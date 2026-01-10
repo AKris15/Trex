@@ -1,0 +1,17 @@
+{
+  "name": "frontend_web",
+  "type": "dir",
+  "children": [
+    { "name": "index.html", "type": "file" },
+    {
+      "name": "assets",
+      "type": "dir",
+      "children": [
+        { "name": "css", "type": "dir", "children": [] },
+        { "name": "js", "type": "dir", "children": [] },
+        { "name": "images", "type": "dir", "children": [] }
+      ]
+    }
+  ]
+}
+

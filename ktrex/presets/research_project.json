@@ -1,0 +1,25 @@
+{
+  "name": "research_project",
+  "type": "dir",
+  "children": [
+    {
+      "name": "paper",
+      "type": "dir",
+      "children": [
+        { "name": "draft.tex", "type": "file" }
+      ]
+    },
+    {
+      "name": "figures",
+      "type": "dir",
+      "children": []
+    },
+    {
+      "name": "data",
+      "type": "dir",
+      "children": []
+    },
+    { "name": "references.bib", "type": "file" }
+  ]
+}
+

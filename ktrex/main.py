@@ -2,8 +2,8 @@ import curses
 import sys
 from pathlib import Path
 
-from KTrex import state
-from KTrex.tui import tui_main
+from ktrex import __version__, state
+from ktrex.tui import tui_main
 
 
 def resolve_root(argv: list[str]) -> Path:
@@ -16,6 +16,10 @@ def resolve_root(argv: list[str]) -> Path:
         return Path(name)
 
     arg = argv[1]
+
+    if arg == "--version":
+        print(f"ktrex {__version__}")
+        sys.exit(0)
 
     if arg == ".":
         return Path.cwd()
